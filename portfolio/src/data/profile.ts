@@ -9,7 +9,7 @@ export const profile = {
     '用内容打动人心，用数据驱动增长。',
     '在内容与数据的交汇处，创造品牌影响力，提升业务价值。',
   ],
-  location: 'BASED IN SHANGHAI',
+  location: 'BASED IN SHENZHEN & HONG KONG',
   email: 'sirinfuhua@gmail.com',
   socials: [
     { label: '小红书', href: '#' },
