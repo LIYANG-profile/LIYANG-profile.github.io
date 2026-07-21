@@ -1,4 +1,4 @@
-import { ArrowSquareOut, X } from '@phosphor-icons/react'
+import { ArrowSquareOut, Play, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useId, useRef, useState } from 'react'
 import { categoryColors, type Work } from '../data/works'
@@ -209,13 +209,25 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                     onPlaying={() => setShowPosterCover(false)}
                   />
                   {showPosterCover ? (
-                    <img
-                      src={work.poster}
-                      alt=""
-                      className={`pointer-events-none absolute inset-0 z-[1] h-full w-full ${mediaFitClass}`}
-                      decoding="async"
-                      fetchPriority="high"
-                    />
+                    <button
+                      type="button"
+                      className="absolute inset-0 z-[1] flex items-center justify-center"
+                      aria-label={`播放 ${work.title}`}
+                      onClick={() => {
+                        void videoRef.current?.play()
+                      }}
+                    >
+                      <img
+                        src={work.poster}
+                        alt=""
+                        className={`pointer-events-none absolute inset-0 h-full w-full ${mediaFitClass}`}
+                        decoding="async"
+                        fetchPriority="high"
+                      />
+                      <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-line bg-paper/95 text-ink shadow-sm transition-transform hover:scale-105">
+                        <Play size={26} weight="fill" className="ml-0.5" />
+                      </span>
+                    </button>
                   ) : null}
                 </>
               ) : (
