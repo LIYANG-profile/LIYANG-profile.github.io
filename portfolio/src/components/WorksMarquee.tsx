@@ -59,6 +59,15 @@ export function WorksMarquee() {
     return () => media.removeEventListener('change', sync)
   }, [])
 
+  useEffect(() => {
+    // 进页即预热全部封面，跑马灯与详情弹层点开时可命中缓存
+    works.forEach((work) => {
+      const image = new Image()
+      image.decoding = 'async'
+      image.src = work.poster
+    })
+  }, [])
+
   const applyTransform = useCallback(() => {
     if (trackRef.current) {
       trackRef.current.style.transform = `translate3d(${offsetRef.current}px,0,0)`

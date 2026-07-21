@@ -31,8 +31,9 @@ export function WorkCard({ work, onOpenDetail }: WorkCardProps) {
             src={work.poster}
             alt=""
             className={`h-full w-full ${mediaFitClass}`}
-            loading="lazy"
+            loading="eager"
             decoding="async"
+            fetchPriority="high"
           />
 
           <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-ink/10 transition-opacity duration-200 group-hover:bg-ink/20">

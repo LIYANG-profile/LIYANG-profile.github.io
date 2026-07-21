@@ -1,6 +1,6 @@
 import { ArrowSquareOut, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { useEffect, useId, useRef } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { categoryColors, type Work } from '../data/works'
 
 type WorkModalProps = {
@@ -36,6 +36,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const previouslyFocusedRef = useRef<HTMLElement | null>(null)
   const reduceMotion = useReducedMotion()
+  const [showPosterCover, setShowPosterCover] = useState(true)
 
   useEffect(() => {
     if (!work) return
@@ -98,6 +99,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
     const video = videoRef.current
     if (!video) return
 
+    setShowPosterCover(true)
     video.pause()
     video.currentTime = 0
 
@@ -195,15 +197,27 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
 
             <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-ink/5">
               {work.clipSrc ? (
-                <video
-                  ref={videoRef}
-                  className={`absolute inset-0 h-full w-full ${mediaFitClass}`}
-                  src={work.clipSrc}
-                  poster={work.poster}
-                  controls
-                  playsInline
-                  preload="metadata"
-                />
+                <>
+                  <video
+                    ref={videoRef}
+                    className={`absolute inset-0 z-0 h-full w-full ${mediaFitClass}`}
+                    src={work.clipSrc}
+                    poster={work.poster}
+                    controls
+                    playsInline
+                    preload="none"
+                    onPlaying={() => setShowPosterCover(false)}
+                  />
+                  {showPosterCover ? (
+                    <img
+                      src={work.poster}
+                      alt=""
+                      className={`pointer-events-none absolute inset-0 z-[1] h-full w-full ${mediaFitClass}`}
+                      decoding="async"
+                      fetchPriority="high"
+                    />
+                  ) : null}
+                </>
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img
