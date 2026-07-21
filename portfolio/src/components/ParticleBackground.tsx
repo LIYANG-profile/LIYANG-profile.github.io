@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
-import p5 from 'p5'
+// p5 约占 1MB，运行时用动态 import 加载，避免拖慢首屏；此处仅引入类型
+import type p5 from 'p5'
 
 /** Default seed — change to explore variations; same seed always renders identically. */
 export const PARTICLE_BACKGROUND_DEFAULT_SEED = 42821
@@ -288,7 +289,8 @@ export function ParticleBackground({
       }
     }
 
-    p5InstanceRef.current = new p5(sketch)
+    let disposed = false
+    let P5Constructor: typeof p5 | null = null
 
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const handleMotionChange = (event: MediaQueryListEvent) => {
@@ -302,13 +304,21 @@ export function ParticleBackground({
         mouse.smoothX = MOUSE.offscreen
         mouse.smoothY = MOUSE.offscreen
       }
+      if (!P5Constructor) return
       p5InstanceRef.current?.remove()
-      p5InstanceRef.current = new p5(sketch)
+      p5InstanceRef.current = new P5Constructor(sketch)
     }
 
     motionQuery.addEventListener('change', handleMotionChange)
 
+    void import('p5').then(({ default: P5 }) => {
+      if (disposed) return
+      P5Constructor = P5
+      p5InstanceRef.current = new P5(sketch)
+    })
+
     return () => {
+      disposed = true
       removeMouseListeners()
       motionQuery.removeEventListener('change', handleMotionChange)
       p5InstanceRef.current?.remove()
