@@ -2,7 +2,7 @@ export const profile = {
   nameZh: '李阳',
   nameEn: 'LI Yang',
   roleEn: 'CONTENT CREATOR & DATA OPERATOR',
-  greeting: '你好，我是李阳',
+  greeting: '你好，我是 LI Yang',
   headlineLead: '内容创作',
   headlineTrail: '数据运营',
   tagline: [
