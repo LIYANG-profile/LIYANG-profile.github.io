@@ -1,6 +1,6 @@
-import { ArrowSquareOut, Play, X } from '@phosphor-icons/react'
+import { ArrowSquareOut, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import { categoryColors, type Work } from '../data/works'
 
 type WorkModalProps = {
@@ -36,7 +36,6 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const previouslyFocusedRef = useRef<HTMLElement | null>(null)
   const reduceMotion = useReducedMotion()
-  const [showPosterCover, setShowPosterCover] = useState(true)
 
   useEffect(() => {
     if (!work) return
@@ -99,7 +98,6 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
     const video = videoRef.current
     if (!video) return
 
-    setShowPosterCover(true)
     video.pause()
     video.currentTime = 0
 
@@ -197,39 +195,15 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
 
             <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-ink/5">
               {work.clipSrc ? (
-                <>
-                  <video
-                    ref={videoRef}
-                    className={`absolute inset-0 z-0 h-full w-full ${mediaFitClass}`}
-                    src={work.clipSrc}
-                    poster={work.poster}
-                    controls
-                    playsInline
-                    preload="none"
-                    onPlaying={() => setShowPosterCover(false)}
-                  />
-                  {showPosterCover ? (
-                    <button
-                      type="button"
-                      className="absolute inset-0 z-[1] flex items-center justify-center"
-                      aria-label={`播放 ${work.title}`}
-                      onClick={() => {
-                        void videoRef.current?.play()
-                      }}
-                    >
-                      <img
-                        src={work.poster}
-                        alt=""
-                        className={`pointer-events-none absolute inset-0 h-full w-full ${mediaFitClass}`}
-                        decoding="async"
-                        fetchPriority="high"
-                      />
-                      <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-line bg-paper/95 text-ink shadow-sm transition-transform hover:scale-105">
-                        <Play size={26} weight="fill" className="ml-0.5" />
-                      </span>
-                    </button>
-                  ) : null}
-                </>
+                <video
+                  ref={videoRef}
+                  className={`absolute inset-0 h-full w-full ${mediaFitClass}`}
+                  src={work.clipSrc}
+                  poster={work.poster}
+                  controls
+                  playsInline
+                  preload="metadata"
+                />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <img
