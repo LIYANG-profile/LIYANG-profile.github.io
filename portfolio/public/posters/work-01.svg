@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" fill="none">
+  <rect width="960" height="540" fill="#E8E4DA"/>
+  <rect x="64" y="64" width="832" height="412" stroke="#111111" stroke-width="1.5"/>
+  <path d="M64 320H896" stroke="#111111" stroke-width="1" opacity="0.25"/>
+  <circle cx="220" cy="210" r="48" fill="#E8442E" opacity="0.85"/>
+  <text x="64" y="480" fill="#111111" font-family="Helvetica, Arial, sans-serif" font-size="18" letter-spacing="4">01 � SCRIPT / SHOOT</text>
+</svg>

@@ -1,0 +1,19 @@
+# Local / editor
+.agents/
+.cursor/
+skills-lock.json
+
+# Source footage (site uses portfolio/public/clips)
+视频作品/
+
+# Design references (not needed for site runtime)
+design-ref/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+
+# Env secrets
+.env
+.env.*
