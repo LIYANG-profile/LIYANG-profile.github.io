@@ -17,3 +17,6 @@ Thumbs.db
 # Env secrets
 .env
 .env.*
+
+# Videos hosted on Cloudflare R2
+portfolio/public/clips/

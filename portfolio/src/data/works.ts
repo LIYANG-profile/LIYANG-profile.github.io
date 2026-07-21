@@ -30,6 +30,11 @@ export type Work = {
 const publicAsset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 
+/** 视频托管在 Cloudflare R2（GitHub 仓库只存代码与封面图） */
+const CLIPS_BASE = 'https://pub-e48389af07104ceeb1657d1dc396ab94.r2.dev'
+
+const clipAsset = (filename: string) => `${CLIPS_BASE}/${filename}`
+
 export const works: Work[] = [
   {
     id: 'script-01',
@@ -42,7 +47,7 @@ export const works: Work[] = [
     roles: ['海外素材检索', '翻译', '配音'],
     tools: ['分镜表', '手机稳定器', '剪映'],
     poster: publicAsset('posters/space-fairytale.jpg'),
-    clipSrc: publicAsset('clips/space-fairytale.mp4'),
+    clipSrc: clipAsset('space-fairytale.mp4'),
     detail: {
       background: '围绕《挽救计划》做影评短片，于 IMDB、Youtubue、Instagram 检索素材',
       role: 'AI 自动化素材检索与下载，大幅提升效率\n达芬奇创作',
@@ -61,7 +66,7 @@ export const works: Work[] = [
     roles: ['海外素材检索', '翻译', '配音'],
     tools: ['剪映', 'DaVinci Resolve'],
     poster: publicAsset('posters/chi-mi.jpg'),
-    clipSrc: publicAsset('clips/chi-mi.mp4'),
+    clipSrc: clipAsset('chi-mi.mp4'),
     detail: {
       background: '面向内地影视爱好者的影评内容，需要在开场快速传递看点与情绪',
       role: '确定并统一栏目视觉语言\n达芬奇创作',
@@ -80,7 +85,7 @@ export const works: Work[] = [
     roles: ['剧本创作', '摄影指导', '现场导演', '统筹协调'],
     tools: ['剪映', 'DaVinci Resolve'],
     poster: publicAsset('posters/cash-city.jpg'),
-    clipSrc: publicAsset('clips/cash-city.mp4'),
+    clipSrc: clipAsset('cash-city.mp4'),
     detail: {
       background: '微电影《现金之城》需要把故事张力压进十分钟内，同时保留叙事完整度',
       role: '协调现场近十人的工作沟通，打通剧本/拍摄/后期的创作全流程。达芬奇创作',
@@ -99,7 +104,7 @@ export const works: Work[] = [
     roles: ['AI 工作流', '英文创作', '网站设计'],
     tools: ['剪映', 'Figma'],
     poster: publicAsset('posters/site-iteration.jpg'),
-    clipSrc: publicAsset('clips/site-iteration.mp4'),
+    clipSrc: clipAsset('site-iteration.mp4'),
     detail: {
       background: '把网站开发迭代过程做成简洁的纪录短片，需要在不堆术语的前提下讲清楚设计决策',
       role: '全英文讲解\n达芬奇创作',
@@ -119,7 +124,7 @@ export const works: Work[] = [
     tools: ['剪映', 'Excel'],
     poster: publicAsset('posters/finance-01.jpg'),
     posterAspect: 'portrait',
-    clipSrc: publicAsset('clips/finance-01.mp4'),
+    clipSrc: clipAsset('finance-01.mp4'),
     detail: {
       background: '财经生活账号需要稳定的人设与短平快的节奏，在短时间内抓住眼球传达信息',
       role: '用花字，音效，动画丰富视觉传达\n剪映创作',
@@ -139,7 +144,7 @@ export const works: Work[] = [
     tools: ['剪映', 'Excel'],
     poster: publicAsset('posters/finance-02.jpg'),
     posterAspect: 'portrait',
-    clipSrc: publicAsset('clips/finance-02.mp4'),
+    clipSrc: clipAsset('finance-02.mp4'),
     detail: {
       background: '财经生活账号需要稳定的人设与短平快的节奏，在短时间内抓住眼球传达信息',
       role: '用花字，音效，动画丰富视觉传达\n剪映创作',
