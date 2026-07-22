@@ -79,7 +79,7 @@ export function About() {
           aria-hidden
           className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-line lg:block"
         />
-        <Reveal className="border-b border-line px-5 py-12 md:px-10 md:py-16 lg:border-b-0 lg:px-14">
+        <div className="border-b border-line px-5 py-12 md:px-10 md:py-16 lg:border-b-0 lg:px-14">
           <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h2
               id="about-heading"
@@ -160,7 +160,7 @@ export function About() {
                 </p>
               </>
             ) : (
-              <div className="space-y-5" aria-hidden>
+              <div className="invisible space-y-5" aria-hidden>
                 <p>
                   {ABOUT_LEAD}
                   <span className="whitespace-nowrap">{ABOUT_TOOL_EDIT}</span>
@@ -168,12 +168,12 @@ export function About() {
                   <span className="whitespace-nowrap">{ABOUT_TOOL_DATA}</span>
                   {ABOUT_TAIL}
                 </p>
-                <p className="invisible">{paraB}</p>
-                <p className="invisible">{paraC}</p>
+                <p>{paraB}</p>
+                <p>{paraC}</p>
               </div>
             )}
           </div>
-        </Reveal>
+        </div>
 
         <div id="contact" className="px-5 py-12 md:px-10 md:py-16 lg:px-14">
           <Reveal delay={0.06}>

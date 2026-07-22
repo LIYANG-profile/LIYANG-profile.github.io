@@ -42,7 +42,7 @@ const sheets: Array<{ id: SheetId; step: string; title: string; blurb: string }>
     id: 'retention',
     step: '04',
     title: '完播与留存',
-    blurb: '平均进度 · 3秒跳出 · 播转粉',
+    blurb: '平均进度 / 3秒跳出 / 播转粉',
   },
   {
     id: 'funnel',
