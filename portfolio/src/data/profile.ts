@@ -11,19 +11,15 @@ export const profile = {
   ],
   location: 'BASED IN SHENZHEN & HONG KONG',
   email: 'sirinfuhua@gmail.com',
-  socials: [
-    { label: '小红书', href: '#' },
-    { label: 'LINKEDIN', href: '#' },
-  ],
-  about: [
-    '国际贸易×计算机双重背景，擅长用剪映 / DaVinci 完成内容创作，再用 Excel / Python 分析数据，把数据表现变成后续选题和投放的依据。',
-    '具备英文工作能力，对海外热点敏感。',
-    '欢迎通过邮箱联系，了解合作或项目细节。',
-  ],
-  stats: [
-    { value: 5, suffix: '+', label: '年内容与运营经验', detail: '脚本 · 剪辑 · 增长' },
-    { value: 50, suffix: '+', label: '项目协作经验', detail: '品牌片 · 口播 · 洞察' },
-    { value: 100, suffix: 'M+', label: '内容累计曝光', detail: '多平台分发' },
-    { value: 30, suffix: '%+', label: '平均互动率提升', detail: '内容策略迭代' },
-  ],
+  about: {
+    lead: '国际贸易×计算机双重背景，擅长用',
+    toolEdit: '剪映 / DaVinci',
+    mid: ' 完成内容创作，再用 ',
+    toolData: 'Excel / Python',
+    tail: ' 分析数据，把数据表现变成后续选题和分发的依据。',
+    more: [
+      '具备英文工作能力，对海外热点敏感。',
+      '欢迎通过邮箱联系，了解合作或项目细节。',
+    ],
+  },
 } as const

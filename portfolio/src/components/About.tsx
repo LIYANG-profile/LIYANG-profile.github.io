@@ -11,50 +11,44 @@ const ABOUT_CHAR_DELAY = 0.022
 const ABOUT_CHAR_DURATION = 0.18
 const ABOUT_LINE_GAP = 0.14
 
-/** 首段拆成普通文案 + 两个关键词（英文不拆行） */
-const ABOUT_LEAD = '国际贸易×计算机双重背景，擅长用'
-const ABOUT_TOOL_EDIT = '剪映 / DaVinci'
-const ABOUT_MID = ' 完成内容创作，再用 '
-const ABOUT_TOOL_DATA = 'Excel / Python'
-const ABOUT_TAIL = ' 分析数据，把数据表现变成后续选题和投放的依据。'
-
 export function About() {
   const reduceMotion = useReducedMotion()
   const bodyRef = useRef<HTMLDivElement>(null)
   const inView = useInView(bodyRef, { once: true, margin: '-12% 0px' })
   const started = Boolean(reduceMotion) || inView
 
-  const [, paraB, paraC] = profile.about
+  const { lead, toolEdit, mid, toolData, tail, more } = profile.about
+  const [paraB, paraC] = more
 
   const leadStart = 0.06
   const editStart = lineDoneAt(
     leadStart,
-    ABOUT_LEAD.length,
+    lead.length,
     ABOUT_CHAR_DELAY,
     ABOUT_CHAR_DURATION,
   )
   const midStart = lineDoneAt(
     editStart,
-    ABOUT_TOOL_EDIT.length,
+    toolEdit.length,
     ABOUT_CHAR_DELAY,
     ABOUT_CHAR_DURATION,
   )
   const dataStart = lineDoneAt(
     midStart,
-    ABOUT_MID.length,
+    mid.length,
     ABOUT_CHAR_DELAY,
     ABOUT_CHAR_DURATION,
   )
   const tailStart = lineDoneAt(
     dataStart,
-    ABOUT_TOOL_DATA.length,
+    toolData.length,
     ABOUT_CHAR_DELAY,
     ABOUT_CHAR_DURATION,
   )
   const paraBStart =
     lineDoneAt(
       tailStart,
-      ABOUT_TAIL.length,
+      tail.length,
       ABOUT_CHAR_DELAY,
       ABOUT_CHAR_DURATION,
     ) + ABOUT_LINE_GAP
@@ -100,7 +94,7 @@ export function About() {
               <>
                 <p>
                   <TypeReveal
-                    segments={[{ text: ABOUT_LEAD }]}
+                    segments={[{ text: lead }]}
                     startDelay={reduceMotion ? 0 : leadStart}
                     charDelay={ABOUT_CHAR_DELAY}
                     charDuration={ABOUT_CHAR_DURATION}
@@ -111,14 +105,14 @@ export function About() {
                     drawDelay={reduceMotion ? 0 : editRingDelay}
                   >
                     <TypeReveal
-                      segments={[{ text: ABOUT_TOOL_EDIT }]}
+                      segments={[{ text: toolEdit }]}
                       startDelay={reduceMotion ? 0 : editStart}
                       charDelay={ABOUT_CHAR_DELAY}
                       charDuration={ABOUT_CHAR_DURATION}
                     />
                   </PencilRing>
                   <TypeReveal
-                    segments={[{ text: ABOUT_MID }]}
+                    segments={[{ text: mid }]}
                     startDelay={reduceMotion ? 0 : midStart}
                     charDelay={ABOUT_CHAR_DELAY}
                     charDuration={ABOUT_CHAR_DURATION}
@@ -129,14 +123,14 @@ export function About() {
                     drawDelay={reduceMotion ? 0 : dataRingDelay}
                   >
                     <TypeReveal
-                      segments={[{ text: ABOUT_TOOL_DATA }]}
+                      segments={[{ text: toolData }]}
                       startDelay={reduceMotion ? 0 : dataStart}
                       charDelay={ABOUT_CHAR_DELAY}
                       charDuration={ABOUT_CHAR_DURATION}
                     />
                   </PencilRing>
                   <TypeReveal
-                    segments={[{ text: ABOUT_TAIL }]}
+                    segments={[{ text: tail }]}
                     startDelay={reduceMotion ? 0 : tailStart}
                     charDelay={ABOUT_CHAR_DELAY}
                     charDuration={ABOUT_CHAR_DURATION}
@@ -162,11 +156,11 @@ export function About() {
             ) : (
               <div className="invisible space-y-5" aria-hidden>
                 <p>
-                  {ABOUT_LEAD}
-                  <span className="whitespace-nowrap">{ABOUT_TOOL_EDIT}</span>
-                  {ABOUT_MID}
-                  <span className="whitespace-nowrap">{ABOUT_TOOL_DATA}</span>
-                  {ABOUT_TAIL}
+                  {lead}
+                  <span className="whitespace-nowrap">{toolEdit}</span>
+                  {mid}
+                  <span className="whitespace-nowrap">{toolData}</span>
+                  {tail}
                 </p>
                 <p>{paraB}</p>
                 <p>{paraC}</p>

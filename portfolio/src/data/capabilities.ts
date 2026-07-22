@@ -1,5 +1,3 @@
-import type { WorkCategory } from './works'
-
 export type Capability = {
   id: string
   number: string
@@ -7,7 +5,6 @@ export type Capability = {
   titleEn: string
   description: string
   tools: string[]
-  relatedCategory: WorkCategory
 }
 
 export const capabilities: Capability[] = [
@@ -19,7 +16,6 @@ export const capabilities: Capability[] = [
     description:
       '掌握内容创作全链条，拥有剧本-拍摄-后期的实操经验',
     tools: ['剪映', 'DaVinci Resolve'],
-    relatedCategory: '电影前瞻',
   },
   {
     id: 'data-review',
@@ -29,7 +25,6 @@ export const capabilities: Capability[] = [
     description:
       '内容发布后，追踪曝光、互动、完播、转化等关键指标，用表格与看板长期追踪账号运营情况，将复盘结论用于指导内容运营，让数据落地服务业务结果',
     tools: ['Excel', 'Python'],
-    relatedCategory: '电影前瞻',
   },
   {
     id: 'english',
@@ -39,6 +34,5 @@ export const capabilities: Capability[] = [
     description:
       '英语可作为工作语言：口语沟通流畅，能独立完成英文内容读写与跨团队协作',
     tools: ['雅思', 'CET 6'],
-    relatedCategory: '财经口播',
   },
 ]

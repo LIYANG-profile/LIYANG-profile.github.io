@@ -30,18 +30,6 @@ const favoriteRate = favorite / view
 const coinRate = coin / view
 const interactionRate = interactionTotal / view
 
-export const bilibiliOpsMeta = {
-  accountName: '不是电影乐队',
-  mid: 505201963,
-  spaceUrl: 'https://space.bilibili.com/505201963',
-  fans: 43,
-  archiveCount: 26,
-  snapshotDate: '2026-07-22',
-  workbookHref: `${import.meta.env.BASE_URL}downloads/bilibili-ops-tracker.xlsx`,
-  creatorDataUrl:
-    'https://member.bilibili.com/platform/upload-manager/article/data/BV1sVAKzUEy9',
-} as const
-
 export const featuredVideoOps = {
   bvid: 'BV1sVAKzUEy9',
   title: '【挽救计划】披着太空冒险外皮的童话故事',
@@ -75,11 +63,8 @@ export const rateCompareConclusionLead =
 
 export const rateCompareConclusionHighlight = '片尾需要加强行动号召'
 
-export const rateCompareConclusion =
-  `${rateCompareConclusionLead}${rateCompareConclusionHighlight}。`
-
 /**
- * 完播 / 留存（创作中心稿件数据页截图 2026-07-22）
+ * 进度与留存（创作中心稿件数据页截图 2026-07-22）
  * 来源：upload-manager/article/data/BV1sVAKzUEy9
  */
 export const retentionSheet = {
@@ -95,7 +80,7 @@ export const retentionSheet = {
       metric: '平均播放进度',
       value: '1分7秒',
       source: '创作中心',
-      note: '占总时长 21.1% · 播放完成度较好 · 2.7星',
+      note: '占总时长 21.1%',
     },
     {
       metric: '占总时长',
@@ -144,7 +129,7 @@ export const funnelSteps = [
     value: '3,376',
   },
   {
-    stage: '完播',
+    stage: '平均进度',
     value: '21.1%',
   },
   {

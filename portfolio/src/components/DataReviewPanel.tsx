@@ -41,14 +41,14 @@ const sheets: Array<{ id: SheetId; step: string; title: string; blurb: string }>
   {
     id: 'retention',
     step: '04',
-    title: '完播与留存',
+    title: '进度与留存',
     blurb: '平均进度 / 3秒跳出 / 播转粉',
   },
   {
     id: 'funnel',
     step: '05',
     title: '转化漏斗',
-    blurb: '播放 → 完播 → 互动 → 关注',
+    blurb: '播放 → 平均进度 → 互动 → 关注',
   },
 ]
 
@@ -276,7 +276,7 @@ type DataReviewPanelProps = {
   active: boolean
 }
 
-/** 依次点开的多表复盘：公开表现 → 互动 → 比率 → 完播 → 漏斗 */
+/** 依次点开的多表复盘：公开表现 → 互动 → 比率 → 进度与留存 → 漏斗 */
 export function DataReviewPanel({ active }: DataReviewPanelProps) {
   const [openId, setOpenId] = useState<SheetId | null>(null)
   const reduceMotion = useReducedMotion()
