@@ -7,6 +7,7 @@
   --color-muted: #8a8a84;
   --color-line: #d9d6cf;
   --font-display: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-hero: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
   --font-label: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -70,6 +71,10 @@
 @layer utilities {
   .font-label {
     font-family: var(--font-label);
+  }
+
+  .font-hero {
+    font-family: var(--font-hero);
   }
 
   .hairline {

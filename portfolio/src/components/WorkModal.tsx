@@ -1,7 +1,7 @@
 import { ArrowSquareOut, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useId, useRef } from 'react'
-import { categoryColors, type Work } from '../data/works'
+import { type Work } from '../data/works'
 
 type WorkModalProps = {
   work: Work | null
@@ -130,70 +130,59 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
           initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.22 }}
+          transition={{ duration: reduceMotion ? 0.01 : 0.22 }}
         >
           <motion.div
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="flex max-h-[96dvh] w-full max-w-3xl flex-col overflow-y-auto border-2 border-accent/40 bg-paper shadow-2xl sm:max-h-[min(96dvh,calc(100dvh-2rem))]"
+            className="flex max-h-[96dvh] w-full max-w-3xl flex-col overflow-y-auto border border-line bg-paper sm:max-h-[min(96dvh,calc(100dvh-2rem))]"
             onClick={(event) => event.stopPropagation()}
             initial={
-              reduceMotion ? false : { opacity: 0, y: 32, scale: 0.97 }
+              reduceMotion ? false : { opacity: 0, scale: 0.97, y: 10 }
             }
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={
               reduceMotion
                 ? { opacity: 0 }
-                : { opacity: 0, y: 18, scale: 0.98 }
+                : { opacity: 0, scale: 0.985, y: 6 }
             }
-            transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: reduceMotion ? 0.01 : 0.28,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
-            <div className="relative shrink-0 border-b border-line px-4 py-3 md:px-5">
+            <div className="relative shrink-0 border-b border-line px-4 py-2 md:px-5">
               <button
                 ref={closeRef}
                 type="button"
-                className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center border border-line transition-colors hover:border-ink md:right-5"
+                className="absolute right-2 top-1.5 flex h-8 w-8 items-center justify-center text-ink/35 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink md:right-4"
                 aria-label="关闭详情"
                 onClick={onClose}
               >
-                <X size={18} />
+                <X size={16} weight="light" />
               </button>
-              <div className="flex flex-col items-center px-10 text-center">
-                <p className="flex items-baseline justify-center gap-3">
-                  <span
-                    className="font-label text-[10px] tracking-[0.16em]"
-                    style={{ color: categoryColors[work.categoryTone] }}
-                  >
-                    {work.category}
-                  </span>
-                  <span className="font-label text-[10px] tracking-[0.12em] text-muted">
-                    {work.duration}
-                  </span>
-                </p>
+              <div className="flex flex-col items-center px-8 text-center">
                 <h2
                   id={titleId}
-                  className="mt-0.5 text-xl font-bold tracking-tight md:text-2xl"
+                  className="text-lg font-bold tracking-tight md:text-xl"
                 >
                   {work.title}
                 </h2>
                 {work.roles.length > 0 ? (
-                  <ul className="mt-2 flex flex-wrap justify-center gap-1.5">
-                    {work.roles.map((role) => (
-                      <li
-                        key={role}
-                        className="border border-line px-2 py-0.5 text-[11px] leading-none text-ink/65"
-                      >
-                        {role}
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-1 max-w-md text-[11px] leading-snug text-ink/50">
+                    {work.roles.join(' · ')}
+                  </p>
                 ) : null}
               </div>
             </div>
 
-            <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-ink/5">
+            <div
+              className={`relative aspect-video w-full shrink-0 overflow-hidden border-b border-line ${
+                isPortraitPoster ? 'bg-paper' : 'bg-ink/5'
+              }`}
+            >
               {work.clipSrc ? (
                 <video
                   ref={videoRef}
@@ -218,36 +207,42 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
               )}
             </div>
 
-            <div className="flex flex-col">
-              <div className="grid grid-cols-2 gap-0 border-t border-line">
-                {detailBlocks.map((block, index) => (
-                  <motion.div
+            <motion.div
+              className="flex flex-col"
+              initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: reduceMotion ? 0.01 : 0.26,
+                delay: reduceMotion ? 0 : 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              <div className="relative grid grid-cols-2 gap-0 border-b border-line">
+                <div
+                  className="pointer-events-none absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-line"
+                  aria-hidden
+                />
+                {detailBlocks.map((block) => (
+                  <div
                     key={block.label}
-                    className="border-b border-line px-3 py-3 odd:border-r md:px-4 md:py-5"
-                    initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.3,
-                      delay: 0.12 + index * 0.05,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                    className="px-3 py-2.5 md:px-4 md:py-3.5"
                   >
-                    <p className="font-label text-[11px] tracking-[0.2em] text-muted">
+                    <p className="font-label text-[10px] tracking-[0.28em] text-muted">
                       {block.label}
                     </p>
                     <p
-                      className={`mt-2 text-[15px] leading-relaxed text-ink/85 md:text-base${
+                      className={`mt-1.5 max-w-[34ch] text-sm leading-snug text-ink/70 md:text-[15px]${
                         block.label === '亮点' ? ' whitespace-pre-line' : ''
                       }`}
                     >
                       {block.body}
                     </p>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
               {work.fullUrl ? (
-                <div className="shrink-0 border-t border-line px-4 py-3 md:px-5">
+                <div className="shrink-0 px-4 py-2.5 md:px-5">
                   <a
                     href={work.fullUrl}
                     className="inline-flex items-center gap-2 font-label text-xs tracking-[0.18em] text-accent"
@@ -259,7 +254,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                   </a>
                 </div>
               ) : null}
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
       ) : null}

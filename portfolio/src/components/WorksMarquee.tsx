@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { works, type Work } from '../data/works'
+import { BrushUnderline } from './BrushUnderline'
 import { Reveal } from './Reveal'
 import { WorkCard } from './WorkCard'
 import { WorkModal } from './WorkModal'
@@ -30,7 +31,6 @@ function wrapOffset(offset: number, loopWidth: number) {
 
 export function WorksMarquee() {
   const trackRef = useRef<HTMLDivElement>(null)
-  const progressRef = useRef<HTMLSpanElement>(null)
   const offsetRef = useRef(0)
   const loopWidthRef = useRef(0)
   const draggingRef = useRef(false)
@@ -141,11 +141,6 @@ export function WorksMarquee() {
         applyTransform()
       }
 
-      if (loopWidth > 0 && progressRef.current) {
-        const ratio = (Math.abs(offsetRef.current) % loopWidth) / loopWidth
-        progressRef.current.style.width = `${Math.max(8, ratio * 100)}%`
-      }
-
       frame = requestAnimationFrame(tick)
     }
 
@@ -235,21 +230,21 @@ export function WorksMarquee() {
     <section id="works" aria-labelledby="works-heading">
       <div className="mx-auto max-w-[1400px]">
         <Reveal>
-          <div className="px-5 py-10 md:px-10 md:py-12 lg:px-14">
+          <div className="flex flex-wrap items-baseline justify-between gap-3 px-5 pt-14 pb-10 md:px-10 md:pt-16 md:pb-12 lg:px-14">
+            <h2
+              id="works-heading"
+              className="text-3xl font-black tracking-tight md:text-4xl"
+            >
+              <BrushUnderline tone="slate">作品</BrushUnderline>
+            </h2>
             <p className="font-label text-[11px] tracking-[0.28em] text-muted">
               WORKS
             </p>
-            <h2
-              id="works-heading"
-              className="mt-3 text-3xl font-black tracking-tight md:text-4xl"
-            >
-              精选作品
-            </h2>
           </div>
         </Reveal>
 
         <div
-          className={`relative pb-6 md:pb-8 ${
+          className={`relative pb-14 md:pb-20 ${
             reduceMotion
               ? 'overflow-x-auto overflow-y-hidden'
               : 'overflow-hidden'
@@ -274,20 +269,6 @@ export function WorksMarquee() {
             })}
           </div>
         </div>
-
-        {reduceMotion ? null : (
-          <div className="mx-auto max-w-[1400px] px-5 pb-8 md:px-10 lg:px-14">
-            <div
-              className="relative mx-auto h-px max-w-xs bg-line"
-              aria-hidden
-            >
-              <span
-                ref={progressRef}
-                className="absolute top-0 left-0 h-px w-[8%] bg-ink"
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       <WorkModal work={selectedWork} onClose={() => setSelectedWork(null)} />

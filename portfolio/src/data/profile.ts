@@ -2,11 +2,11 @@ export const profile = {
   nameZh: '李阳',
   nameEn: 'LI Yang',
   roleEn: 'CONTENT CREATOR & DATA OPERATOR',
-  greeting: '你好，我是 LI Yang',
+  greeting: '你好，我是李阳',
   headlineLead: '内容创作',
   headlineTrail: '数据运营',
   tagline: [
-    '用内容打动人心，用数据驱动增长。',
+    '用内容打动人心，用数据驱动增长',
     '在内容与数据的交汇处，创造品牌影响力，提升业务价值。',
   ],
   location: 'BASED IN SHENZHEN & HONG KONG',
@@ -16,8 +16,9 @@ export const profile = {
     { label: 'LINKEDIN', href: '#' },
   ],
   about: [
-    '专注短视频后期与账号运营，擅长用剪映 / DaVinci 完成叙事剪辑，再用 Excel / Power BI 把内容表现翻译成可行动的增长决策。',
-    '欢迎通过下方邮箱联系，了解合作或项目细节。',
+    '国际贸易×计算机双重背景，擅长用剪映 / DaVinci 完成内容创作，再用 Excel / Python 分析数据，把数据表现变成后续选题和投放的依据。',
+    '具备英文工作能力，对海外热点敏感。',
+    '欢迎通过邮箱联系，了解合作或项目细节。',
   ],
   stats: [
     { value: 5, suffix: '+', label: '年内容与运营经验', detail: '脚本 · 剪辑 · 增长' },

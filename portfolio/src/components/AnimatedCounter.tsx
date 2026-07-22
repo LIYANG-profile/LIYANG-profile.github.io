@@ -5,12 +5,15 @@ type AnimatedCounterProps = {
   value: number
   suffix?: string
   className?: string
+  /** 小数位；默认 0（整数）。百分比 KPI 传 1。 */
+  decimals?: number
 }
 
 export function AnimatedCounter({
   value,
   suffix = '',
   className = '',
+  decimals = 0,
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, margin: '-20% 0px' })
@@ -24,18 +27,25 @@ export function AnimatedCounter({
       return
     }
 
+    const factor = 10 ** decimals
     const controls = animate(0, value, {
       duration: 1.2,
       ease: [0.22, 1, 0.36, 1],
-      onUpdate: (latest) => setDisplay(Math.round(latest)),
+      onUpdate: (latest) =>
+        setDisplay(Math.round(latest * factor) / factor),
     })
 
     return () => controls.stop()
-  }, [inView, reduceMotion, value])
+  }, [decimals, inView, reduceMotion, value])
+
+  const formatted =
+    decimals > 0
+      ? display.toFixed(decimals)
+      : Math.round(display).toLocaleString('zh-CN')
 
   return (
     <span ref={ref} className={className}>
-      {display}
+      {formatted}
       {suffix}
     </span>
   )
