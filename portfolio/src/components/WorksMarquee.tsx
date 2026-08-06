@@ -8,6 +8,8 @@ import {
 } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { works, type Work } from '../data/works'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui } from '../i18n/ui'
 import { BrushUnderline } from './BrushUnderline'
 import { Reveal } from './Reveal'
 import { WorkCard } from './WorkCard'
@@ -30,6 +32,7 @@ function wrapOffset(offset: number, loopWidth: number) {
 }
 
 export function WorksMarquee() {
+  const { t } = useLocale()
   const trackRef = useRef<HTMLDivElement>(null)
   const offsetRef = useRef(0)
   const loopWidthRef = useRef(0)
@@ -235,10 +238,10 @@ export function WorksMarquee() {
               id="works-heading"
               className="text-3xl font-black tracking-tight md:text-4xl"
             >
-              <BrushUnderline tone="slate">作品</BrushUnderline>
+              <BrushUnderline tone="slate">{t(ui.sections.works)}</BrushUnderline>
             </h2>
             <p className="font-label text-[11px] tracking-[0.28em] text-muted">
-              WORKS
+              {t(ui.sections.worksLabel)}
             </p>
           </div>
         </Reveal>

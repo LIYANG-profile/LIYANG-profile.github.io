@@ -1,6 +1,8 @@
 import { useInView, useReducedMotion } from 'motion/react'
 import { useRef } from 'react'
 import { profile } from '../data/profile'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui } from '../i18n/ui'
 import { BrushUnderline } from './BrushUnderline'
 import { PencilRing } from './PencilRing'
 import { Reveal } from './Reveal'
@@ -13,12 +15,19 @@ const ABOUT_LINE_GAP = 0.14
 
 export function About() {
   const reduceMotion = useReducedMotion()
+  const { locale, t } = useLocale()
   const bodyRef = useRef<HTMLDivElement>(null)
-  const inView = useInView(bodyRef, { once: true, margin: '-12% 0px' })
+  // 正 margin 提前触发；避免负 % 在首屏边缘/快滚时漏检，导致正文长期 invisible
+  const inView = useInView(bodyRef, { once: true, amount: 0.12, margin: '120px 0px' })
   const started = Boolean(reduceMotion) || inView
 
-  const { lead, toolEdit, mid, toolData, tail, more } = profile.about
-  const [paraB, paraC] = more
+  const lead = t(profile.about.lead)
+  const toolEdit = t(profile.about.toolEdit)
+  const mid = t(profile.about.mid)
+  const toolData = t(profile.about.toolData)
+  const tail = t(profile.about.tail)
+  const paraB = t(profile.about.more[0])
+  const paraC = t(profile.about.more[1])
 
   const leadStart = 0.06
   const editStart = lineDoneAt(
@@ -79,10 +88,10 @@ export function About() {
               id="about-heading"
               className="text-3xl font-black tracking-tight md:text-4xl"
             >
-              <BrushUnderline tone="olive">关于</BrushUnderline>
+              <BrushUnderline tone="olive">{t(ui.sections.about)}</BrushUnderline>
             </h2>
             <p className="font-label text-[11px] tracking-[0.28em] text-muted">
-              ABOUT
+              {t(ui.sections.aboutLabel)}
             </p>
           </div>
 
@@ -90,82 +99,85 @@ export function About() {
             ref={bodyRef}
             className="relative mt-8 max-w-xl space-y-5 text-[15px] leading-[1.85] text-ink/80 md:text-base"
           >
-            {started ? (
-              <>
-                <p>
-                  <TypeReveal
-                    segments={[{ text: lead }]}
-                    startDelay={reduceMotion ? 0 : leadStart}
-                    charDelay={ABOUT_CHAR_DELAY}
-                    charDuration={ABOUT_CHAR_DURATION}
-                  />
-                  <PencilRing
-                    hand="a"
-                    active={started}
-                    drawDelay={reduceMotion ? 0 : editRingDelay}
-                  >
+            {/* locale key 仅重挂载文案，observer 挂在稳定父级上 */}
+            <div key={locale}>
+              {started ? (
+                <>
+                  <p>
                     <TypeReveal
-                      segments={[{ text: toolEdit }]}
-                      startDelay={reduceMotion ? 0 : editStart}
+                      segments={[{ text: lead }]}
+                      startDelay={reduceMotion ? 0 : leadStart}
                       charDelay={ABOUT_CHAR_DELAY}
                       charDuration={ABOUT_CHAR_DURATION}
                     />
-                  </PencilRing>
-                  <TypeReveal
-                    segments={[{ text: mid }]}
-                    startDelay={reduceMotion ? 0 : midStart}
-                    charDelay={ABOUT_CHAR_DELAY}
-                    charDuration={ABOUT_CHAR_DURATION}
-                  />
-                  <PencilRing
-                    hand="b"
-                    active={started}
-                    drawDelay={reduceMotion ? 0 : dataRingDelay}
-                  >
+                    <PencilRing
+                      hand="a"
+                      active={started}
+                      drawDelay={reduceMotion ? 0 : editRingDelay}
+                    >
+                      <TypeReveal
+                        segments={[{ text: toolEdit }]}
+                        startDelay={reduceMotion ? 0 : editStart}
+                        charDelay={ABOUT_CHAR_DELAY}
+                        charDuration={ABOUT_CHAR_DURATION}
+                      />
+                    </PencilRing>
                     <TypeReveal
-                      segments={[{ text: toolData }]}
-                      startDelay={reduceMotion ? 0 : dataStart}
+                      segments={[{ text: mid }]}
+                      startDelay={reduceMotion ? 0 : midStart}
                       charDelay={ABOUT_CHAR_DELAY}
                       charDuration={ABOUT_CHAR_DURATION}
                     />
-                  </PencilRing>
-                  <TypeReveal
-                    segments={[{ text: tail }]}
-                    startDelay={reduceMotion ? 0 : tailStart}
-                    charDelay={ABOUT_CHAR_DELAY}
-                    charDuration={ABOUT_CHAR_DURATION}
-                  />
-                </p>
-                <p>
-                  <TypeReveal
-                    segments={[{ text: paraB }]}
-                    startDelay={reduceMotion ? 0 : paraBStart}
-                    charDelay={ABOUT_CHAR_DELAY}
-                    charDuration={ABOUT_CHAR_DURATION}
-                  />
-                </p>
-                <p>
-                  <TypeReveal
-                    segments={[{ text: paraC }]}
-                    startDelay={reduceMotion ? 0 : paraCStart}
-                    charDelay={ABOUT_CHAR_DELAY}
-                    charDuration={ABOUT_CHAR_DURATION}
-                  />
-                </p>
-              </>
-            ) : (
-              <div className="invisible space-y-5" aria-hidden>
-                <p>
-                  {lead}
-                  <span className="whitespace-nowrap">{toolEdit}</span>
-                  {mid}
-                  <span className="whitespace-nowrap">{toolData}</span>
-                  {tail}
-                </p>
-                <p>{paraB}</p>
-                <p>{paraC}</p>
-              </div>
-            )}
+                    <PencilRing
+                      hand="b"
+                      active={started}
+                      drawDelay={reduceMotion ? 0 : dataRingDelay}
+                    >
+                      <TypeReveal
+                        segments={[{ text: toolData }]}
+                        startDelay={reduceMotion ? 0 : dataStart}
+                        charDelay={ABOUT_CHAR_DELAY}
+                        charDuration={ABOUT_CHAR_DURATION}
+                      />
+                    </PencilRing>
+                    <TypeReveal
+                      segments={[{ text: tail }]}
+                      startDelay={reduceMotion ? 0 : tailStart}
+                      charDelay={ABOUT_CHAR_DELAY}
+                      charDuration={ABOUT_CHAR_DURATION}
+                    />
+                  </p>
+                  <p>
+                    <TypeReveal
+                      segments={[{ text: paraB }]}
+                      startDelay={reduceMotion ? 0 : paraBStart}
+                      charDelay={ABOUT_CHAR_DELAY}
+                      charDuration={ABOUT_CHAR_DURATION}
+                    />
+                  </p>
+                  <p>
+                    <TypeReveal
+                      segments={[{ text: paraC }]}
+                      startDelay={reduceMotion ? 0 : paraCStart}
+                      charDelay={ABOUT_CHAR_DELAY}
+                      charDuration={ABOUT_CHAR_DURATION}
+                    />
+                  </p>
+                </>
+              ) : (
+                <div className="invisible space-y-5" aria-hidden>
+                  <p>
+                    {lead}
+                    <span className="whitespace-nowrap">{toolEdit}</span>
+                    {mid}
+                    <span className="whitespace-nowrap">{toolData}</span>
+                    {tail}
+                  </p>
+                  <p>{paraB}</p>
+                  <p>{paraC}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -173,10 +185,10 @@ export function About() {
           <Reveal delay={0.06}>
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="text-3xl font-black tracking-tight md:text-4xl">
-                <BrushUnderline tone="sky">联系</BrushUnderline>
+                <BrushUnderline tone="sky">{t(ui.sections.contact)}</BrushUnderline>
               </h2>
               <p className="font-label text-[11px] tracking-[0.28em] text-muted">
-                CONTACT
+                {t(ui.sections.contactLabel)}
               </p>
             </div>
             <ul className="mt-10 space-y-6">

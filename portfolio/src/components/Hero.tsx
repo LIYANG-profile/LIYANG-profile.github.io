@@ -1,5 +1,6 @@
 import { useReducedMotion } from 'motion/react'
 import { profile } from '../data/profile'
+import { useLocale } from '../i18n/LocaleContext'
 import { BrushUnderline } from './BrushUnderline'
 import {
   CHAR_DELAY,
@@ -11,11 +12,12 @@ import {
 
 export function Hero() {
   const reduceMotion = useReducedMotion()
+  const { locale, t } = useLocale()
 
-  const greeting = profile.greeting
-  const headlineLead = profile.headlineLead
-  const headlineTrail = profile.headlineTrail
-  const tagline = profile.tagline[0]
+  const greeting = t(profile.greeting)
+  const headlineLead = t(profile.headlineLead)
+  const headlineTrail = t(profile.headlineTrail)
+  const tagline = t(profile.tagline[0])
   const headlineCharCount = headlineLead.length + 1 + headlineTrail.length
 
   const greetingStart = INTRO_DELAY
@@ -31,7 +33,10 @@ export function Hero() {
       className="relative"
       aria-labelledby="hero-heading"
     >
-      <div className="relative mx-auto flex min-h-[min(56svh,520px)] max-w-[1400px] flex-col justify-center px-5 pt-12 pb-16 md:px-10 md:pt-16 md:pb-20 lg:px-14">
+      <div
+        key={locale}
+        className="relative mx-auto flex min-h-[min(56svh,520px)] max-w-[1400px] flex-col justify-center px-5 pt-12 pb-16 md:px-10 md:pt-16 md:pb-20 lg:px-14"
+      >
         <p className="text-[15px] text-ink/70 md:text-base">
           <TypeReveal
             segments={[{ text: greeting }]}

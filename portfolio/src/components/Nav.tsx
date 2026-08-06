@@ -1,15 +1,19 @@
 import { List, X } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 import { profile } from '../data/profile'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui } from '../i18n/ui'
+import { LocaleSwitch } from './LocaleSwitch'
 
-const navItems = [
-  { href: '#works', id: 'works', label: 'WORKS' },
-  { href: '#capabilities', id: 'capabilities', label: 'CAPABILITIES' },
-  { href: '#about', id: 'about', label: 'ABOUT' },
-  { href: '#contact', id: 'contact', label: 'CONTACT' },
+const navItemKeys = [
+  { href: '#works', id: 'works', label: ui.nav.works },
+  { href: '#capabilities', id: 'capabilities', label: ui.nav.capabilities },
+  { href: '#about', id: 'about', label: ui.nav.about },
+  { href: '#contact', id: 'contact', label: ui.nav.contact },
 ] as const
 
 export function Nav() {
+  const { t } = useLocale()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeId, setActiveId] = useState<string>('')
@@ -29,7 +33,7 @@ export function Nav() {
   }, [menuOpen])
 
   useEffect(() => {
-    const sectionIds = navItems.map((item) => item.id)
+    const sectionIds = navItemKeys.map((item) => item.id)
     const elements = sectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el))
@@ -72,38 +76,44 @@ export function Nav() {
           {profile.nameEn}
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex" aria-label="主导航">
-          {navItems.map((item) => (
-            <a key={item.href} href={item.href} className={linkClass(item.id)}>
-              {item.label}
-              <span
-                className={`absolute -bottom-1.5 left-0 h-px w-full origin-left bg-accent transition-transform duration-300 ease-out ${
-                  activeId === item.id ? 'scale-x-100' : 'scale-x-0'
-                }`}
-                aria-hidden
-              />
-            </a>
-          ))}
-        </nav>
+        <div className="hidden items-center gap-8 md:flex">
+          <nav className="flex items-center gap-8" aria-label={t(ui.nav.primaryAria)}>
+            {navItemKeys.map((item) => (
+              <a key={item.href} href={item.href} className={linkClass(item.id)}>
+                {t(item.label)}
+                <span
+                  className={`absolute -bottom-1.5 left-0 h-px w-full origin-left bg-accent transition-transform duration-300 ease-out ${
+                    activeId === item.id ? 'scale-x-100' : 'scale-x-0'
+                  }`}
+                  aria-hidden
+                />
+              </a>
+            ))}
+          </nav>
+          <LocaleSwitch />
+        </div>
 
-        <button
-          type="button"
-          className="flex h-10 w-10 items-center justify-center border border-line md:hidden"
-          aria-label={menuOpen ? '关闭菜单' : '打开菜单'}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X size={20} /> : <List size={20} />}
-        </button>
+        <div className="flex items-center gap-3 md:hidden">
+          <LocaleSwitch />
+          <button
+            type="button"
+            className="flex h-10 w-10 items-center justify-center border border-line"
+            aria-label={menuOpen ? t(ui.nav.closeMenu) : t(ui.nav.openMenu)}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <X size={20} /> : <List size={20} />}
+          </button>
+        </div>
       </div>
 
       {menuOpen ? (
         <nav
           className="border-t border-line bg-paper px-5 py-6 md:hidden"
-          aria-label="移动导航"
+          aria-label={t(ui.nav.mobileAria)}
         >
           <ul className="flex flex-col gap-5">
-            {navItems.map((item) => (
+            {navItemKeys.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
@@ -112,7 +122,7 @@ export function Nav() {
                   }`}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {item.label}
+                  {t(item.label)}
                 </a>
               </li>
             ))}

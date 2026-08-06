@@ -16,41 +16,11 @@ import {
   retentionSheet,
   deviceShare,
 } from '../data/bilibiliOps'
+import { pickLocalized } from '../i18n/locale'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui, type UiSheetId } from '../i18n/ui'
 
-type SheetId = 'overview' | 'interaction' | 'rates' | 'retention' | 'funnel'
-
-const sheets: Array<{ id: SheetId; step: string; title: string; blurb: string }> = [
-  {
-    id: 'overview',
-    step: '01',
-    title: '公开表现',
-    blurb: '播放 / 点赞 / 点赞率 / 互动率',
-  },
-  {
-    id: 'interaction',
-    step: '02',
-    title: '互动构成',
-    blurb: '点赞 / 收藏 / 评论 / 投币 / 弹幕 / 转发',
-  },
-  {
-    id: 'rates',
-    step: '03',
-    title: '互动率对照',
-    blurb: '比率拆解与结论',
-  },
-  {
-    id: 'retention',
-    step: '04',
-    title: '进度与留存',
-    blurb: '平均进度 / 3秒跳出 / 播转粉',
-  },
-  {
-    id: 'funnel',
-    step: '05',
-    title: '转化漏斗',
-    blurb: '播放 → 平均进度 → 互动 → 关注',
-  },
-]
+type SheetId = UiSheetId
 
 function MetricBar({
   label,
@@ -69,7 +39,7 @@ function MetricBar({
   const width = Math.max(widthPercent, 3)
 
   return (
-    <div className="grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-3 sm:grid-cols-[3.75rem_minmax(0,1fr)_4.5rem]">
+    <div className="grid grid-cols-[4.75rem_minmax(0,1fr)_auto] items-center gap-3 sm:grid-cols-[6rem_minmax(0,1fr)_4.5rem]">
       <span className="text-sm text-muted">{label}</span>
       <div className="h-0.5 overflow-hidden bg-line/80">
         <motion.div
@@ -96,6 +66,7 @@ function SheetBody({
   id: SheetId
   play: boolean
 }) {
+  const { locale, t } = useLocale()
   const maxInteraction = Math.max(...interactionSlices.map((slice) => slice.value))
   const maxRate = Math.max(...rateCompare.map((row) => row.rate))
 
@@ -109,7 +80,7 @@ function SheetBody({
               index >= 2 ? 'mt-4 md:mt-0' : ''
             }`}
           >
-            <p className="text-sm text-muted">{kpi.label}</p>
+            <p className="text-sm text-muted">{t(kpi.label)}</p>
             <p className="mt-2 font-label text-[1.65rem] font-semibold tracking-tight tabular-nums md:text-[1.85rem]">
               {play ? (
                 <AnimatedCounter
@@ -135,27 +106,27 @@ function SheetBody({
       <div>
         <div className="mb-5 grid grid-cols-3 gap-4">
           <div>
-            <p className="text-xs text-muted">收藏</p>
+            <p className="text-xs text-muted">{t(ui.dataReview.favorite)}</p>
             <p className="mt-1 font-label text-xl font-semibold tabular-nums">
-              {formatOpsNumber(featuredVideoOps.favorite)}
+              {formatOpsNumber(featuredVideoOps.favorite, locale)}
             </p>
             <p className="mt-0.5 font-label text-[11px] tabular-nums text-muted">
               {formatOpsPercent(featuredVideoOps.favoriteRate)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-muted">投币</p>
+            <p className="text-xs text-muted">{t(ui.dataReview.coin)}</p>
             <p className="mt-1 font-label text-xl font-semibold tabular-nums">
-              {formatOpsNumber(featuredVideoOps.coin)}
+              {formatOpsNumber(featuredVideoOps.coin, locale)}
             </p>
             <p className="mt-0.5 font-label text-[11px] tabular-nums text-muted">
               {formatOpsPercent(featuredVideoOps.coinRate)}
             </p>
           </div>
           <div>
-            <p className="text-xs text-muted">转发</p>
+            <p className="text-xs text-muted">{t(ui.dataReview.share)}</p>
             <p className="mt-1 font-label text-xl font-semibold tabular-nums">
-              {formatOpsNumber(featuredVideoOps.share)}
+              {formatOpsNumber(featuredVideoOps.share, locale)}
             </p>
             <p className="mt-0.5 font-label text-[11px] tabular-nums text-muted">
               {formatOpsPercent(featuredVideoOps.shareRate)}
@@ -166,8 +137,8 @@ function SheetBody({
           {interactionSlices.map((slice) => (
             <MetricBar
               key={slice.key}
-              label={slice.label}
-              display={formatOpsNumber(slice.value)}
+              label={t(slice.label)}
+              display={formatOpsNumber(slice.value, locale)}
               widthPercent={(slice.value / maxInteraction) * 100}
               tone="accent"
               play={play}
@@ -184,8 +155,8 @@ function SheetBody({
         <div className="space-y-3">
           {rateCompare.map((row) => (
             <MetricBar
-              key={row.label}
-              label={row.label}
+              key={row.label.zh}
+              label={t(row.label)}
               display={formatOpsPercent(row.rate)}
               widthPercent={(row.rate / maxRate) * 100}
               tone="ink"
@@ -194,11 +165,11 @@ function SheetBody({
           ))}
         </div>
         <p className="mt-6 text-[14px] leading-[1.75] text-ink/75">
-          {rateCompareConclusionLead}
+          {t(rateCompareConclusionLead)}
           <BrushUnderline tone="accent">
-            {rateCompareConclusionHighlight}
+            {t(rateCompareConclusionHighlight)}
           </BrushUnderline>
-          。
+          {t(ui.dataReview.conclusionPeriod)}
         </p>
       </div>
     )
@@ -211,15 +182,17 @@ function SheetBody({
           <table className="w-full min-w-[240px] text-left text-sm">
             <thead>
               <tr className="font-label text-[10px] tracking-[0.14em] text-muted">
-                <th className="pb-3 font-medium">指标</th>
-                <th className="pb-3 font-medium">数值</th>
+                <th className="pb-3 font-medium">{t(ui.dataReview.metric)}</th>
+                <th className="pb-3 font-medium">{t(ui.dataReview.value)}</th>
               </tr>
             </thead>
             <tbody>
               {retentionSheet.rows.map((row) => (
-                <tr key={row.metric} className="border-t border-line/70">
-                  <td className="py-3 pr-3 font-medium">{row.metric}</td>
-                  <td className="py-3 font-label tabular-nums">{row.value}</td>
+                <tr key={row.metric.zh} className="border-t border-line/70">
+                  <td className="py-3 pr-3 font-medium">{t(row.metric)}</td>
+                  <td className="py-3 font-label tabular-nums">
+                    {pickLocalized(row.value, locale)}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -227,17 +200,17 @@ function SheetBody({
         </div>
 
         <p className="mt-8 font-label text-[10px] tracking-[0.16em] text-muted">
-          终端分布
+          {t(ui.dataReview.deviceShare)}
         </p>
         <ul className="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
           {deviceShare.map((item) => (
-            <li key={item.label} className="flex items-center gap-2 text-sm">
+            <li key={item.label.zh} className="flex items-center gap-2 text-sm">
               <span
                 className="h-2 w-2 shrink-0 rounded-full"
                 style={{ backgroundColor: item.tone }}
                 aria-hidden
               />
-              <span className="text-muted">{item.label}</span>
+              <span className="text-muted">{t(item.label)}</span>
               <span className="font-label tabular-nums text-ink/80">
                 {item.percent}
               </span>
@@ -253,7 +226,7 @@ function SheetBody({
       <div className="space-y-0">
         {funnelSteps.map((step, index) => (
           <div
-            key={step.stage}
+            key={step.stage.zh}
             className={`grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-baseline gap-3 py-3 ${
               index > 0 ? 'border-t border-line/70' : ''
             }`}
@@ -261,7 +234,7 @@ function SheetBody({
             <p className="font-label text-[10px] tracking-[0.14em] text-muted">
               {String(index + 1).padStart(2, '0')}
             </p>
-            <p className="font-medium">{step.stage}</p>
+            <p className="font-medium">{t(step.stage)}</p>
             <p className="text-right font-label text-lg font-semibold tabular-nums">
               {step.value}
             </p>
@@ -280,6 +253,7 @@ type DataReviewPanelProps = {
 export function DataReviewPanel({ active }: DataReviewPanelProps) {
   const [openId, setOpenId] = useState<SheetId | null>(null)
   const reduceMotion = useReducedMotion()
+  const { t } = useLocale()
 
   useEffect(() => {
     if (!active) setOpenId(null)
@@ -288,11 +262,11 @@ export function DataReviewPanel({ active }: DataReviewPanelProps) {
   return (
     <div className="mt-6 md:mt-8">
       <div className="mb-4">
-        <p className="text-sm text-ink/70">以视频《挽救计划》为例</p>
+        <p className="text-sm text-ink/70">{t(ui.dataReview.exampleLead)}</p>
       </div>
 
       <div className="border border-line">
-        {sheets.map((sheet) => {
+        {ui.dataReview.sheets.map((sheet) => {
           const isOpen = openId === sheet.id
 
           return (
@@ -315,10 +289,10 @@ export function DataReviewPanel({ active }: DataReviewPanelProps) {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-[15px] font-bold tracking-tight">
-                    {sheet.title}
+                    {t(sheet.title)}
                   </span>
                   <span className="mt-1 block text-xs text-muted">
-                    {sheet.blurb}
+                    {t(sheet.blurb)}
                   </span>
                 </span>
                 <CaretDown

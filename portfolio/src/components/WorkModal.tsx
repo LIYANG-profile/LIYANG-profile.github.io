@@ -2,6 +2,8 @@ import { ArrowSquareOut, X } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useId, useRef } from 'react'
 import { type Work } from '../data/works'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui } from '../i18n/ui'
 
 type WorkModalProps = {
   work: Work | null
@@ -36,6 +38,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const previouslyFocusedRef = useRef<HTMLElement | null>(null)
   const reduceMotion = useReducedMotion()
+  const { t } = useLocale()
 
   useEffect(() => {
     if (!work) return
@@ -107,10 +110,11 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
     }
   }, [work])
 
+  const highlightLabel = t(ui.work.highlight)
   const detailBlocks = work
     ? [
-        { label: '背景', body: work.detail.background },
-        { label: '亮点', body: work.detail.role },
+        { label: t(ui.work.background), body: t(work.detail.background) },
+        { label: highlightLabel, body: t(work.detail.role) },
       ]
     : []
 
@@ -158,7 +162,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                 ref={closeRef}
                 type="button"
                 className="absolute right-2 top-1.5 flex h-8 w-8 items-center justify-center text-ink/35 transition-colors hover:text-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink md:right-4"
-                aria-label="关闭详情"
+                aria-label={t(ui.work.closeDetail)}
                 onClick={onClose}
               >
                 <X size={16} weight="light" />
@@ -168,11 +172,11 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                   id={titleId}
                   className="text-lg font-bold tracking-tight md:text-xl"
                 >
-                  {work.title}
+                  {t(work.title)}
                 </h2>
                 {work.roles.length > 0 ? (
                   <p className="mt-1 max-w-md text-[11px] leading-snug text-ink/50">
-                    {work.roles.join(' · ')}
+                    {work.roles.map((role) => t(role)).join(' · ')}
                   </p>
                 ) : null}
               </div>
@@ -201,7 +205,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                     className={`absolute inset-0 h-full w-full opacity-80 ${mediaFitClass}`}
                   />
                   <p className="relative z-10 border border-line bg-paper/95 px-4 py-2 text-sm text-muted">
-                    视频片段待替换 · 当前为封面占位
+                    {t(ui.work.clipPending)}
                   </p>
                 </div>
               )}
@@ -232,7 +236,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                     </p>
                     <p
                       className={`mt-1.5 max-w-[34ch] text-sm leading-snug text-ink/70 md:text-[15px]${
-                        block.label === '亮点' ? ' whitespace-pre-line' : ''
+                        block.label === highlightLabel ? ' whitespace-pre-line' : ''
                       }`}
                     >
                       {block.body}
@@ -249,7 +253,7 @@ export function WorkModal({ work, onClose }: WorkModalProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    查看完整版
+                    {t(ui.work.viewFull)}
                     <ArrowSquareOut size={14} />
                   </a>
                 </div>

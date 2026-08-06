@@ -2,6 +2,8 @@ import { CaretDown } from '@phosphor-icons/react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useState, type ReactNode } from 'react'
 import { capabilities } from '../data/capabilities'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui } from '../i18n/ui'
 import { BrushUnderline } from './BrushUnderline'
 import { DataReviewPanel } from './DataReviewPanel'
 import { Reveal } from './Reveal'
@@ -9,6 +11,7 @@ import { Reveal } from './Reveal'
 export function Capabilities() {
   const [dataReviewOpen, setDataReviewOpen] = useState(false)
   const reduceMotion = useReducedMotion()
+  const { t } = useLocale()
 
   return (
     <section id="capabilities" aria-labelledby="capabilities-heading">
@@ -19,10 +22,10 @@ export function Capabilities() {
               id="capabilities-heading"
               className="text-3xl font-black tracking-tight md:text-4xl"
             >
-              <BrushUnderline>技能</BrushUnderline>
+              <BrushUnderline>{t(ui.sections.capabilities)}</BrushUnderline>
             </h2>
             <p className="font-label text-[11px] tracking-[0.28em] text-muted">
-              CAPABILITIES
+              {t(ui.sections.capabilitiesLabel)}
             </p>
           </div>
         </Reveal>
@@ -49,12 +52,14 @@ export function Capabilities() {
                     >
                       <CapabilitySummary
                         number={capability.number}
-                        title={capability.title}
+                        title={t(capability.title)}
                         tools={capability.tools}
-                        description={capability.description}
+                        description={t(capability.description)}
                         trailing={
                           <span className="mt-5 inline-flex items-center gap-2 border border-accent px-3.5 py-2 font-label text-[12px] font-semibold tracking-[0.16em] text-accent transition-colors group-hover:bg-accent group-hover:text-paper">
-                            {dataReviewOpen ? '收起案例' : '展开案例'}
+                            {dataReviewOpen
+                              ? t(ui.capabilities.collapseCase)
+                              : t(ui.capabilities.expandCase)}
                             <CaretDown
                               size={16}
                               weight="bold"
@@ -70,9 +75,9 @@ export function Capabilities() {
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-[4.5rem_minmax(0,1fr)] md:gap-x-10 md:gap-y-4 lg:grid-cols-[5.5rem_minmax(12rem,0.85fr)_minmax(0,1.35fr)] lg:gap-x-12">
                       <CapabilitySummary
                         number={capability.number}
-                        title={capability.title}
+                        title={t(capability.title)}
                         tools={capability.tools}
-                        description={capability.description}
+                        description={t(capability.description)}
                       />
                     </div>
                   )}

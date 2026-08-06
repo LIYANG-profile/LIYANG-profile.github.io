@@ -1,6 +1,8 @@
 import { Play } from '@phosphor-icons/react'
 import { motion, useReducedMotion } from 'motion/react'
 import { categoryColors, type Work } from '../data/works'
+import { useLocale } from '../i18n/LocaleContext'
+import { ui } from '../i18n/ui'
 
 type WorkCardProps = {
   work: Work
@@ -9,6 +11,8 @@ type WorkCardProps = {
 
 export function WorkCard({ work, onOpenDetail }: WorkCardProps) {
   const reduceMotion = useReducedMotion()
+  const { t } = useLocale()
+  const title = t(work.title)
   const isPortraitPoster = work.posterAspect === 'portrait'
   const mediaFitClass = isPortraitPoster
     ? 'object-contain bg-paper'
@@ -24,7 +28,7 @@ export function WorkCard({ work, onOpenDetail }: WorkCardProps) {
         type="button"
         className="flex h-full w-full flex-col text-left"
         onClick={onOpenDetail}
-        aria-label={`查看作品详情：${work.title}`}
+        aria-label={`${t(ui.work.openDetail)}：${title}`}
       >
         <span className="relative aspect-video w-full overflow-hidden bg-ink/5">
           <img
@@ -48,17 +52,17 @@ export function WorkCard({ work, onOpenDetail }: WorkCardProps) {
               className="text-[14px] font-semibold leading-none tracking-wide"
               style={{ color: categoryColors[work.categoryTone] }}
             >
-              {work.category}
+              {t(work.category)}
             </span>
             <span className="absolute right-0 top-1/2 -translate-y-1/2 font-label text-[11px] leading-none tracking-[0.12em] text-muted">
               {work.duration}
             </span>
           </span>
           <span className="text-[17px] font-bold leading-snug tracking-tight">
-            {work.title}
+            {title}
           </span>
           <span className="line-clamp-2 text-[13px] leading-relaxed text-muted">
-            {work.summary}
+            {t(work.summary)}
           </span>
         </span>
       </button>
