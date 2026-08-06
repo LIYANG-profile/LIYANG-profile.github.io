@@ -5,7 +5,7 @@ export type Capability = {
   number: string
   title: LocalizedString
   description: LocalizedString
-  tools: string[]
+  tools: LocalizedString[]
 }
 
 export const capabilities: Capability[] = [
@@ -17,7 +17,10 @@ export const capabilities: Capability[] = [
       zh: '掌握内容创作全链条，拥有剧本-拍摄-后期的实操经验',
       en: 'Full content chain — scripting, shooting, and post production',
     },
-    tools: ['剪映', 'DaVinci Resolve'],
+    tools: [
+      { zh: '剪映', en: 'CapCut' },
+      { zh: 'DaVinci Resolve', en: 'DaVinci Resolve' },
+    ],
   },
   {
     id: 'data-review',
@@ -27,7 +30,10 @@ export const capabilities: Capability[] = [
       zh: '内容发布后，追踪曝光、互动、完播、转化等关键指标，用表格与看板长期追踪账号运营情况，将复盘结论用于指导内容运营，让数据落地服务业务结果',
       en: 'After publish: track reach, engagement, completion, conversion; sheet & dashboard ops; turn reviews into content decisions',
     },
-    tools: ['Excel', 'Python'],
+    tools: [
+      { zh: 'Excel', en: 'Excel' },
+      { zh: 'Python', en: 'Python' },
+    ],
   },
   {
     id: 'english',
@@ -37,6 +43,9 @@ export const capabilities: Capability[] = [
       zh: '英语可作为工作语言：口语沟通流畅，能独立完成英文内容读写与跨团队协作',
       en: 'Work-ready English — fluent speaking, independent writing, cross-team collab',
     },
-    tools: ['雅思', 'CET 6'],
+    tools: [
+      { zh: '雅思', en: 'IELTS' },
+      { zh: 'CET 6', en: 'CET 6' },
+    ],
   },
 ]

@@ -53,7 +53,7 @@ export function Capabilities() {
                       <CapabilitySummary
                         number={capability.number}
                         title={t(capability.title)}
-                        tools={capability.tools}
+                        tools={capability.tools.map((tool) => t(tool))}
                         description={t(capability.description)}
                         trailing={
                           <span className="mt-5 inline-flex items-center gap-2 border border-accent px-3.5 py-2 font-label text-[12px] font-semibold tracking-[0.16em] text-accent transition-colors group-hover:bg-accent group-hover:text-paper">
@@ -76,7 +76,7 @@ export function Capabilities() {
                       <CapabilitySummary
                         number={capability.number}
                         title={t(capability.title)}
-                        tools={capability.tools}
+                        tools={capability.tools.map((tool) => t(tool))}
                         description={t(capability.description)}
                       />
                     </div>

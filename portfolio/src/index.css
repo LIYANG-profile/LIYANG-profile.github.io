@@ -7,6 +7,7 @@
   --color-muted: #8a8a84;
   --color-line: #d9d6cf;
   --font-display: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body-en: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-hero: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
   --font-label: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
 }
@@ -43,6 +44,11 @@
     font-family: var(--font-display);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+  }
+
+  /* 英文正文：编辑向衬线；导航 label / Hero 仍用各自字体 */
+  html[lang='en'] body {
+    font-family: var(--font-body-en);
   }
 
   #root {
