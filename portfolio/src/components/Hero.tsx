@@ -46,7 +46,7 @@ export function Hero() {
 
         <h1
           id="hero-heading"
-          className="font-hero mt-4 max-w-[18em] text-[clamp(2.4rem,6.5vw,5rem)] font-bold leading-[1.12] tracking-tight"
+          className="font-hero mt-4 whitespace-nowrap text-[clamp(1.95rem,5.4vw,5rem)] font-bold leading-[1.12] tracking-tight"
         >
           <BrushUnderline drawDelay={reduceMotion ? 0 : brushDelay}>
             <TypeReveal
