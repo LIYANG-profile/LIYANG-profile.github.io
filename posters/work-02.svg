@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" fill="none">
+  <rect width="960" height="540" fill="#DDE2E6"/>
+  <rect x="80" y="80" width="800" height="380" fill="#F7F5F0" stroke="#111111"/>
+  <rect x="120" y="140" width="280" height="160" fill="#5B6B7A"/>
+  <rect x="430" y="140" width="400" height="18" fill="#111111"/>
+  <rect x="430" y="180" width="320" height="10" fill="#8A8A84"/>
+  <rect x="430" y="210" width="360" height="10" fill="#8A8A84"/>
+  <text x="80" y="500" fill="#111111" font-family="Helvetica, Arial, sans-serif" font-size="18" letter-spacing="4">02 � FILM PREVIEW</text>
+</svg>
